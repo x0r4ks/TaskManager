@@ -1,5 +1,5 @@
-﻿#define SINGLE_PROCESS
-#define MULTIPLE_PROCESS
+﻿//#define SINGLE_PROCESS
+
 
 using System;
 using System.Collections.Generic;
@@ -26,6 +26,13 @@ namespace Process
 			return name;
 		}
 
+		static void PrintProcessInfo(System.Diagnostics.Process p)
+		{
+			Console.WriteLine($"PID: {p.Id}\tName: {p.ProcessName}\t" +
+				$"PATH: {p.MainModule.FileName}\t");
+
+		}
+
 		static void Main(string[] args)
 		{
 #if SIGLE_PROCESS
@@ -45,10 +52,20 @@ namespace Process
 			Console.WriteLine($"Threads: {process.Threads.Count}");
 			Console.WriteLine($"Priority Class: {process.PriorityClass}");
 #endif
+			System.Diagnostics.Process[] processes =
+					 System.Diagnostics.Process.GetProcesses();
 
-	
+			foreach (System.Diagnostics.Process process in processes)
+			{
+				try
+				{
+					PrintProcessInfo(process);
+				}
+				catch { }
+				
+			}
 
-
+			Console.ReadKey();
 		}
 
 		[DllImport("advapi32.dll", SetLastError = true)]
