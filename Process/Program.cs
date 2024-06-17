@@ -1,5 +1,5 @@
-﻿//#define SINGLE_PROCESS
-
+﻿#define SINGLE_PROCESS
+//#define MULTIPLE_PROCESSES
 
 using System;
 using System.Collections.Generic;
@@ -35,13 +35,13 @@ namespace Process
 
 		static void Main(string[] args)
 		{
-#if SIGLE_PROCESS
+#if SINGLE_PROCESS
+
 			Console.Write("Введите имя программы: ");
 			string process_name = Console.ReadLine();
 			System.Diagnostics.Process process = new System.Diagnostics.Process();
 			process.StartInfo.FileName = process_name;
 			process.Start();
-
 
 
 			Console.WriteLine(process.Id);
@@ -51,7 +51,28 @@ namespace Process
 			Console.WriteLine($"SessionID: {process.SessionId}");
 			Console.WriteLine($"Threads: {process.Threads.Count}");
 			Console.WriteLine($"Priority Class: {process.PriorityClass}");
+
+
+			PerformanceCounter counter = new PerformanceCounter("Process", "% Processor Time", process.ProcessName, true);
+			Console.WriteLine("Press Any key to continue ... ");
+
+			while (!Console.KeyAvailable) {
+				Console.Clear();
+				double percent = counter.NextValue();
+				Console.WriteLine($"{process.ProcessName} CPU load {percent/10}%");
+				Console.WriteLine($"Working Set:	{process.WorkingSet64} B");
+				Console.WriteLine($"Working Set:	{((double)process.PrivateMemorySize64) / 0x100000} MiB");
+				
+				Thread.Sleep(1000/10);
+			}
+
+				
+
 #endif
+
+#if MULTIPLE_PROCESSES
+
+
 			System.Diagnostics.Process[] processes =
 					 System.Diagnostics.Process.GetProcesses();
 
@@ -62,10 +83,11 @@ namespace Process
 					PrintProcessInfo(process);
 				}
 				catch { }
-				
+
 			}
 
 			Console.ReadKey();
+#endif
 		}
 
 		[DllImport("advapi32.dll", SetLastError = true)]
