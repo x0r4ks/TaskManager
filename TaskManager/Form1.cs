@@ -13,19 +13,13 @@ using System.Collections.ObjectModel;
 using System.Reflection;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
-//using TaskManager.models;
-
 
 namespace TaskManager
 {
 	public partial class MainForm : Form
     {
-		static void PrintProcessInfo(System.Diagnostics.Process p)
-		{
-			Console.WriteLine($"PID: {p.Id}\tName: {p.ProcessName}\t" +
-				$"PATH: {p.MainModule.FileName}\t");
 
-		}
+		Dictionary<int, Process> d_processes;
 
 		static string getUsetName(IntPtr process_handle)
 		{
@@ -37,31 +31,26 @@ namespace TaskManager
 			return name;
 		}
 
-		void DoubleBufferedListView()
-		{
-			Type type = listView_Processes.GetType();
-			PropertyInfo pI = type.GetProperty("DoubleBuffered", BindingFlags.NonPublic | BindingFlags.Instance);
-			type.GetProperty("DoubleBuffered", BindingFlags.NonPublic | BindingFlags.Instance);
-			pI.SetValue(listView_Processes, true, null);
-		}
-
 		public MainForm()
         {
             InitializeComponent();
 
-
-			//DoubleBufferedListView();
-
 			SetColumns();
 			statusStrip.Items.Add("");
-			
+			LoadProcesses();
+
+			d_processes = Process.GetProcesses().ToDictionary(item => item.Id, item => item);
 		}
 
 
 
 		private void timer_processesUpdate_Tick(object sender, EventArgs e)
 		{
-			LoadProcesses();
+			
+			AddNewProcesses();
+			RemoveOldProcesses();
+
+			statusStrip.Items[0].Text = $"Количество процессов: {listView_Processes.Items.Count}";	
 		}
 
 
@@ -70,34 +59,55 @@ namespace TaskManager
 			listView_Processes.Columns.Clear();
 			listView_Processes.Columns.Add("PID");
 			listView_Processes.Columns.Add("Name");
-			listView_Processes.Columns.Add("Path");
+			//listView_Processes.Columns.Add("Path");
 			listView_Processes.View = View.Details;
+		}
+
+		void AddProcessToListView(Process process)
+		{
+			ListViewItem liv = new ListViewItem();
+			liv.Text = process.Id.ToString();
+			liv.SubItems.Add(process.ProcessName);
+			listView_Processes.Items.Add(liv);
 		}
 
 		private void LoadProcesses()
 		{
-			listView_Processes.Items.Clear();
-			
-			Process[] processes = Process.GetProcesses();
-			foreach (Process process in processes) {
-
-				ListViewItem i = new ListViewItem();
-
-				i.Text = process.Id.ToString();
-				i.SubItems.Add(process.ProcessName);
-				try
-				{
-					i.SubItems.Add(process.MainModule.FileName);
-				} catch (Exception ex)
-				{
-					i.SubItems.Add("Up Privileges");
-				}
-
-				listView_Processes.Items.Add(i);
-				statusStrip.Items[0].Text = $"Кол-во процессов: {listView_Processes.Items.Count}";
-				
-				
+			//listView_Processes.Items.Clear();
+			d_processes = Process.GetProcesses().ToDictionary(item => item.Id, item => item);
+			foreach (var i in d_processes)
+			{
+				AddProcessToListView(i.Value);
 			}
+		}
+
+		private void RemoveOldProcesses()
+		{
+			for (int i = 0; i < listView_Processes.Items.Count; i++)
+			{
+				string item_name = listView_Processes.Items[i].Name;
+				if (!d_processes.ContainsKey(Convert.ToInt32(listView_Processes.Items[i].Text)))
+					listView_Processes.Items.RemoveAt(i);
+			}
+		}
+
+		private void AddNewProcesses()
+		{
+			Dictionary<int, Process> d_proc = Process.GetProcesses().ToDictionary(item => item.Id, item => item);
+			foreach (KeyValuePair<int, Process> i in d_proc)
+			{
+				if (!d_processes.ContainsKey(i.Key))
+				{
+					//this.d_processes.Add(i.Key, i.Value);
+					AddProcessToListView(i.Value);
+				}
+			}
+
+		}
+
+		private void RemoveProcessFromListView(int pid)
+		{
+			listView_Processes.Items.RemoveByKey(pid.ToString());
 		}
 
 

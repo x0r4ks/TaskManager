@@ -32,7 +32,8 @@
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
 			this.tabControl = new System.Windows.Forms.TabControl();
 			this.tabPageProcesses = new System.Windows.Forms.TabPage();
-			this.listView_Processes = new System.Windows.Forms.ListView();
+			//this.listView_Processes = new System.Windows.Forms.ListView();
+			this.listView_Processes = new ListViewSmooth();
 			this.pID = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.pName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.pPath = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -144,7 +145,8 @@
         private System.Windows.Forms.TabPage tabPageProcesses;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.StatusStrip statusStrip;
-        private System.Windows.Forms.ListView listView_Processes;
+		//private System.Windows.Forms.ListView listView_Processes;
+		private ListViewSmooth listView_Processes;
 		private System.Windows.Forms.ColumnHeader pID;
 		private System.Windows.Forms.ColumnHeader pName;
 		private System.Windows.Forms.ColumnHeader pPath;

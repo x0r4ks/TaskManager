@@ -1,5 +1,7 @@
-﻿#define SINGLE_PROCESS
+﻿//#define SINGLE_PROCESS
 //#define MULTIPLE_PROCESSES
+#define DICT_PROCESS
+
 
 using System;
 using System.Collections.Generic;
@@ -88,6 +90,19 @@ namespace Process
 
 			Console.ReadKey();
 #endif
+
+
+#if DICT_PROCESS
+			System.Diagnostics.Process[] proc = System.Diagnostics.Process.GetProcesses();
+			Dictionary<int, System.Diagnostics.Process> dict = proc.ToDictionary(item => item.Id, item => item);
+
+			foreach(var i in dict)
+			{
+				Console.WriteLine($"{i.Key}\t{i.Value.ProcessName}");
+			}
+
+#endif
+
 		}
 
 		[DllImport("advapi32.dll", SetLastError = true)]
