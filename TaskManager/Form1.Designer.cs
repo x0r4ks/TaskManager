@@ -1,4 +1,7 @@
-﻿namespace TaskManager
+﻿using System.Drawing;
+using System.Collections;
+
+namespace TaskManager
 {
     partial class MainForm
     {
@@ -32,8 +35,7 @@
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
 			this.tabControl = new System.Windows.Forms.TabControl();
 			this.tabPageProcesses = new System.Windows.Forms.TabPage();
-			//this.listView_Processes = new System.Windows.Forms.ListView();
-			this.listView_Processes = new ListViewSmooth();
+			this.listView_Processes = new TaskManager.ListViewSmooth();
 			this.pID = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.pName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.pPath = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
