@@ -156,5 +156,16 @@ namespace TaskManager
 		[DllImport("kernel32", SetLastError = true)]
 		[return: MarshalAs(UnmanagedType.Bool)]
 		private static extern bool CloseHandle(IntPtr handle);
+
+		private void runNewTaskToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			InputBox inputBox = new InputBox("Execute");
+			inputBox.ShowDialog();
+		}
+
+		private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			Close();
+		}
 	}
 }

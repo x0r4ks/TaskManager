@@ -39,13 +39,13 @@ namespace TaskManager
 			this.statusStrip = new System.Windows.Forms.StatusStrip();
 			this.timer_processesUpdate = new System.Windows.Forms.Timer(this.components);
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.runNewTaskToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.listView_Processes = new TaskManager.ListViewSmooth();
 			this.pID = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.pName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.pPath = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.runNewTaskToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-			this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.tabControl.SuspendLayout();
 			this.tabPageProcesses.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
@@ -109,6 +109,29 @@ namespace TaskManager
 			this.menuStrip1.TabIndex = 2;
 			this.menuStrip1.Text = "menuStrip1";
 			// 
+			// fileToolStripMenuItem
+			// 
+			this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.runNewTaskToolStripMenuItem,
+            this.exitToolStripMenuItem});
+			this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+			this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+			this.fileToolStripMenuItem.Text = "File";
+			// 
+			// runNewTaskToolStripMenuItem
+			// 
+			this.runNewTaskToolStripMenuItem.Name = "runNewTaskToolStripMenuItem";
+			this.runNewTaskToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.runNewTaskToolStripMenuItem.Text = "Run new Task";
+			this.runNewTaskToolStripMenuItem.Click += new System.EventHandler(this.runNewTaskToolStripMenuItem_Click);
+			// 
+			// exitToolStripMenuItem
+			// 
+			this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+			this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.exitToolStripMenuItem.Text = "Exit";
+			this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+			// 
 			// listView_Processes
 			// 
 			this.listView_Processes.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
@@ -138,27 +161,6 @@ namespace TaskManager
 			// pPath
 			// 
 			this.pPath.Text = "Path";
-			// 
-			// fileToolStripMenuItem
-			// 
-			this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.runNewTaskToolStripMenuItem,
-            this.exitToolStripMenuItem});
-			this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-			this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
-			this.fileToolStripMenuItem.Text = "File";
-			// 
-			// runNewTaskToolStripMenuItem
-			// 
-			this.runNewTaskToolStripMenuItem.Name = "runNewTaskToolStripMenuItem";
-			this.runNewTaskToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-			this.runNewTaskToolStripMenuItem.Text = "Run new Task";
-			// 
-			// exitToolStripMenuItem
-			// 
-			this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-			this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-			this.exitToolStripMenuItem.Text = "Exit";
 			// 
 			// MainForm
 			// 
