@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
+using TaskManager.models;
 
 
 
@@ -14,7 +15,8 @@ namespace TaskManager
 
 		Dictionary<int, Process> d_processes;
 
-		
+		int ramFactor = 1024;
+		string ramSuffix = "KiB";
 
 
 
@@ -34,11 +36,9 @@ namespace TaskManager
 
 		private void timer_processesUpdate_Tick(object sender, EventArgs e)
 		{
-
 			AddNewProcesses();
-			
 			RemoveOldProcesses();
-			
+			UpdateExistingProcesses();
 
 			statusStrip.Items[0].Text = $"Количество процессов: {listView_Processes.Items.Count}";
 			
@@ -51,16 +51,37 @@ namespace TaskManager
 			listView_Processes.Columns.Clear();
 			listView_Processes.Columns.Add("PID");
 			listView_Processes.Columns.Add("Name");
-			//listView_Processes.Columns.Add("Path");
+			listView_Processes.Columns.Add("Working Set");
+			listView_Processes.Columns.Add("Peak Working Set");
 			listView_Processes.View = View.Details;
 		}
 
 		void AddProcessToListView(Process process)
 		{
+
+
+
 			ListViewItem liv = new ListViewItem();
+
 			liv.Text = process.Id.ToString();
 			liv.SubItems.Add(process.ProcessName);
+			liv.SubItems.Add($"{ (process.WorkingSet64 / ramFactor)} {ramSuffix}");
+			liv.SubItems.Add($"{(process.PeakWorkingSet64 / ramFactor)} {ramSuffix}");
+
 			listView_Processes.Items.Add(liv);
+		}
+
+		void UpdateExistingProcesses()
+		{
+			for (int i = 0; i < listView_Processes.Items.Count; i++)
+			{
+				int id = Convert.ToInt32(listView_Processes.Items[i].Text);
+				if (d_processes.ContainsKey(id))
+				{
+					listView_Processes.Items[i].SubItems[2].Text = $"{(d_processes[id].WorkingSet64 / ramFactor)} {ramSuffix}";
+					listView_Processes.Items[i].SubItems[3].Text = $"{(d_processes[id].PeakWorkingSet64 / ramFactor)} {ramSuffix}";
+				}
+			}
 		}
 
 		private void LoadProcesses()
