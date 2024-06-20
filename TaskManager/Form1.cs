@@ -17,19 +17,13 @@ namespace TaskManager
 
 		int ramFactor = 1024;
 		string ramSuffix = "KiB";
-
-
-		private static DateTime lastTime;
-		private static TimeSpan lastTotalProcessorTime;
-		private static DateTime curTime;
-		private static TimeSpan curTotalProcessorTime;
-
-
+		List<String> history;
 
 
 		public MainForm()
 		{
 			InitializeComponent();
+			history = new List<String>();
 
 			SetColumns();
 			
@@ -62,7 +56,6 @@ namespace TaskManager
 			listView_Processes.Columns.Add("Name");
 			listView_Processes.Columns.Add("Working Set");
 			listView_Processes.Columns.Add("Peak Working Set");
-			listView_Processes.Columns.Add("Instance Name");
 			listView_Processes.View = View.Details;
 		}
 
@@ -159,13 +152,30 @@ namespace TaskManager
 
 		private void runNewTaskToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			InputBox inputBox = new InputBox("Execute");
+			
+			
+			InputBox inputBox = new InputBox("Execute", history);
 			inputBox.ShowDialog();
+			history = inputBox.gHistory;
 		}
 
 		private void exitToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			Close();
+		}
+
+		private void killToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			try
+			{
+				if (listView_Processes.SelectedItems.Count > 0)
+				{
+					int id = Convert.ToInt32(listView_Processes.SelectedItems[0].Text);
+					d_processes[id].Kill();
+				}
+			} catch(Exception err) {
+				MessageBox.Show(err.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}	
 		}
 	}
 }

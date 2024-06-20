@@ -46,9 +46,12 @@ namespace TaskManager
 			this.pID = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.pName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.pPath = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.killToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.tabControl.SuspendLayout();
 			this.tabPageProcesses.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
+			this.contextMenuStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tabControl
@@ -121,14 +124,14 @@ namespace TaskManager
 			// runNewTaskToolStripMenuItem
 			// 
 			this.runNewTaskToolStripMenuItem.Name = "runNewTaskToolStripMenuItem";
-			this.runNewTaskToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.runNewTaskToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
 			this.runNewTaskToolStripMenuItem.Text = "Run new Task";
 			this.runNewTaskToolStripMenuItem.Click += new System.EventHandler(this.runNewTaskToolStripMenuItem_Click);
 			// 
 			// exitToolStripMenuItem
 			// 
 			this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-			this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.exitToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
 			this.exitToolStripMenuItem.Text = "Exit";
 			this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
 			// 
@@ -138,6 +141,7 @@ namespace TaskManager
             this.pID,
             this.pName,
             this.pPath});
+			this.listView_Processes.ContextMenuStrip = this.contextMenuStrip1;
 			this.listView_Processes.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.listView_Processes.FullRowSelect = true;
 			this.listView_Processes.GridLines = true;
@@ -162,6 +166,20 @@ namespace TaskManager
 			// 
 			this.pPath.Text = "Path";
 			// 
+			// contextMenuStrip1
+			// 
+			this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.killToolStripMenuItem});
+			this.contextMenuStrip1.Name = "contextMenuStrip1";
+			this.contextMenuStrip1.Size = new System.Drawing.Size(181, 48);
+			// 
+			// killToolStripMenuItem
+			// 
+			this.killToolStripMenuItem.Name = "killToolStripMenuItem";
+			this.killToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.killToolStripMenuItem.Text = "Kill";
+			this.killToolStripMenuItem.Click += new System.EventHandler(this.killToolStripMenuItem_Click);
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -178,6 +196,7 @@ namespace TaskManager
 			this.tabPageProcesses.ResumeLayout(false);
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
+			this.contextMenuStrip1.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -199,6 +218,8 @@ namespace TaskManager
 		private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem runNewTaskToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
+		private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+		private System.Windows.Forms.ToolStripMenuItem killToolStripMenuItem;
 	}
 }
 
