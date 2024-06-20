@@ -51,16 +51,30 @@ namespace TaskManager
 			listView_Processes.Columns.Clear();
 			listView_Processes.Columns.Add("PID");
 			listView_Processes.Columns.Add("Name");
-			//listView_Processes.Columns.Add("Path");
+			listView_Processes.Columns.Add("Working Set");
+			listView_Processes.Columns.Add("Peak Working Set");
 			listView_Processes.View = View.Details;
 		}
 
 		void AddProcessToListView(Process process)
 		{
+
+			int ramFactor = 1024;
+			string ramSuffix = "KiB";
+
 			ListViewItem liv = new ListViewItem();
+
 			liv.Text = process.Id.ToString();
 			liv.SubItems.Add(process.ProcessName);
+			liv.SubItems.Add($"{ (process.WorkingSet64 / ramFactor)} {ramSuffix}");
+			liv.SubItems.Add($"{(process.PeakWorkingSet64 / ramFactor)} {ramSuffix}");
+
 			listView_Processes.Items.Add(liv);
+		}
+
+		void UpdateExistingProcesses()
+		{
+			
 		}
 
 		private void LoadProcesses()
