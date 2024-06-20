@@ -19,6 +19,13 @@ namespace TaskManager
 		string ramSuffix = "KiB";
 
 
+		private static DateTime lastTime;
+		private static TimeSpan lastTotalProcessorTime;
+		private static DateTime curTime;
+		private static TimeSpan curTotalProcessorTime;
+
+
+
 
 		public MainForm()
 		{
@@ -30,6 +37,8 @@ namespace TaskManager
 			LoadProcesses();
 
 			d_processes = Process.GetProcesses().ToDictionary(item => item.Id, item => item);
+
+			
 		}
 
 
@@ -53,13 +62,14 @@ namespace TaskManager
 			listView_Processes.Columns.Add("Name");
 			listView_Processes.Columns.Add("Working Set");
 			listView_Processes.Columns.Add("Peak Working Set");
+			listView_Processes.Columns.Add("Instance Name");
 			listView_Processes.View = View.Details;
 		}
 
 		void AddProcessToListView(Process process)
 		{
 
-
+			
 
 			ListViewItem liv = new ListViewItem();
 
@@ -67,6 +77,7 @@ namespace TaskManager
 			liv.SubItems.Add(process.ProcessName);
 			liv.SubItems.Add($"{ (process.WorkingSet64 / ramFactor)} {ramSuffix}");
 			liv.SubItems.Add($"{(process.PeakWorkingSet64 / ramFactor)} {ramSuffix}");
+
 
 			listView_Processes.Items.Add(liv);
 		}
@@ -78,6 +89,7 @@ namespace TaskManager
 				int id = Convert.ToInt32(listView_Processes.Items[i].Text);
 				if (d_processes.ContainsKey(id))
 				{
+					
 					listView_Processes.Items[i].SubItems[2].Text = $"{(d_processes[id].WorkingSet64 / ramFactor)} {ramSuffix}";
 					listView_Processes.Items[i].SubItems[3].Text = $"{(d_processes[id].PeakWorkingSet64 / ramFactor)} {ramSuffix}";
 				}
@@ -133,6 +145,9 @@ namespace TaskManager
 			CloseHandle(handle);
 			return name;
 		}
+
+
+	
 
 		[DllImport("advapi32.dll", SetLastError = true)]
 		private static extern bool OpenProcessToken(IntPtr processHandle,

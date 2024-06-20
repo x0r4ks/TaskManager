@@ -63,7 +63,7 @@ namespace Process
 				double percent = counter.NextValue();
 				Console.WriteLine($"{process.ProcessName} CPU load {percent/10}%");
 				Console.WriteLine($"Working Set:	{process.WorkingSet64} B");
-				Console.WriteLine($"Working Set:	{((double)process.PrivateMemorySize64) / 0x100000} MiB");
+				Console.WriteLine($"Working Set:	{((double)process.WorkingSet64) / 0x100000} MiB");
 				
 				Thread.Sleep(1000/10);
 			}
