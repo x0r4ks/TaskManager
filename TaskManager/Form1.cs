@@ -4,7 +4,8 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
-
+using TaskManager.models;
+using BrightIdeasSoftware;
 
 
 namespace TaskManager
@@ -14,7 +15,8 @@ namespace TaskManager
 
 		Dictionary<int, Process> d_processes;
 
-		
+		int ramFactor = 1024;
+		string ramSuffix = "KiB";
 
 
 
@@ -34,11 +36,9 @@ namespace TaskManager
 
 		private void timer_processesUpdate_Tick(object sender, EventArgs e)
 		{
-
 			AddNewProcesses();
-			
 			RemoveOldProcesses();
-			
+			UpdateExistingProcesses();
 
 			statusStrip.Items[0].Text = $"Количество процессов: {listView_Processes.Items.Count}";
 			
@@ -49,18 +49,43 @@ namespace TaskManager
 		private void SetColumns()
 		{
 			listView_Processes.Columns.Clear();
-			listView_Processes.Columns.Add("PID");
-			listView_Processes.Columns.Add("Name");
-			//listView_Processes.Columns.Add("Path");
-			listView_Processes.View = View.Details;
+			listView_Processes.AllColumns.Add(new OLVColumn(){Text = "PID", AspectName="pId"});
+			listView_Processes.AllColumns.Add(new OLVColumn(){Text = "Name", AspectName="pName"});
+			listView_Processes.AllColumns.Add(new OLVColumn(){Text = "Working Set", AspectName="pWs"});
+			listView_Processes.AllColumns.Add(new OLVColumn(){Text = "Peak Working Set", AspectName="pPws"});
+
+			listView_Processes.RebuildColumns();
+
+
+
 		}
 
 		void AddProcessToListView(Process process)
 		{
-			ListViewItem liv = new ListViewItem();
-			liv.Text = process.Id.ToString();
-			liv.SubItems.Add(process.ProcessName);
-			listView_Processes.Items.Add(liv);
+
+
+
+			mProcess p = new mProcess();
+			p.Id = 0;
+			p.Name = "TEST";
+			p.FilePath = "LOL/KEK";
+			listView_Processes.AddObject(p);
+
+			
+			
+		}
+
+		void UpdateExistingProcesses()
+		{
+			//for (int i = 0; i < listView_Processes.Items.Count; i++)
+			//{
+			//	int id = Convert.ToInt32(listView_Processes.Items[i].Text);
+			//	if (d_processes.ContainsKey(id))
+			//	{
+			//		listView_Processes.Items[i].SubItems[2].Text = $"{(d_processes[id].WorkingSet64 / ramFactor)} {ramSuffix}";
+			//		listView_Processes.Items[i].SubItems[3].Text = $"{(d_processes[id].PeakWorkingSet64 / ramFactor)} {ramSuffix}";
+			//	}
+			//}
 		}
 
 		private void LoadProcesses()
@@ -76,26 +101,26 @@ namespace TaskManager
 
 		private void RemoveOldProcesses()
 		{
-			d_processes = Process.GetProcesses().ToDictionary(item => item.Id, item => item);
-			for (int i = 0; i < listView_Processes.Items.Count; i++)
-			{
-				if (!d_processes.ContainsKey(Convert.ToInt32(listView_Processes.Items[i].Text))) { 
-					listView_Processes.Items.RemoveAt(i);
-				}
-			}
+			//d_processes = Process.GetProcesses().ToDictionary(item => item.Id, item => item);
+			//for (int i = 0; i < listView_Processes.Items.Count; i++)
+			//{
+			//	if (!d_processes.ContainsKey(Convert.ToInt32(listView_Processes.Items[i].Text))) { 
+			//		listView_Processes.Items.RemoveAt(i);
+			//	}
+			//}
 		}
 
 		private void AddNewProcesses()
 		{
-			Dictionary<int, Process> d_proc = Process.GetProcesses().ToDictionary(item => item.Id, item => item);
-			foreach (var i in d_proc)
-			{
-				if (!d_processes.ContainsKey(i.Key))
-				{
-					//this.d_processes.Add(i.Key, i.Value);
-					AddProcessToListView(i.Value);
-				}
-			}
+			//Dictionary<int, Process> d_proc = Process.GetProcesses().ToDictionary(item => item.Id, item => item);
+			//foreach (var i in d_proc)
+			//{
+			//	if (!d_processes.ContainsKey(i.Key))
+			//	{
+			//		//this.d_processes.Add(i.Key, i.Value);
+			//		AddProcessToListView(i.Value);
+			//	}
+			//}
 		}
 
 		private void RemoveProcessFromListView(int pid)
