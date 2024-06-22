@@ -9,11 +9,7 @@ using System.Collections;
 /*
  
 TODO:
-
 4. Добавить фильтрацию процессов по имени;
-6. В интерфейс программы добавить возможность выбирать столбцы;
-7. Добавить сортировку списка процессов;
-	https://learn.microsoft.com/en-us/troubleshoot/developer/visualstudio/csharp/language-compilers/sort-listview-by-column
  */
 
 enum RAM_Factor
