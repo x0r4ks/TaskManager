@@ -6,18 +6,40 @@ using System.Runtime.InteropServices;
 using System.Diagnostics;
 using TaskManager.models;
 
+/*
+ 
+TODO:
+
+3. Создать Enum для RAM_Factor;
+4. Добавить фильтрацию процессов по имени;
+5. Выровнять числовые значения в столбцах по правому краю;
+6. В интерфейс программы добавить возможность выбирать столбцы;
+7. Добавить сортировку списка процессов;
+	https://learn.microsoft.com/en-us/troubleshoot/developer/visualstudio/csharp/language-compilers/sort-listview-by-column
+
+
+ */
+
+enum RAM_Factor
+{
+	Bytes	= 0x1,
+	KIB		= 0x400,
+	MIB		= 0x100000,
+	GIB		= 0x40000000,
+}
 
 
 namespace TaskManager
 {
+
 	public partial class MainForm : Form
 	{
 
 		Dictionary<int, Process> d_processes;
 
-		int ramFactor = 1024;
-		string ramSuffix = "KiB";
 		List<String> history;
+
+		RAM_Factor RAMFactor = RAM_Factor.KIB;
 
 
 		public MainForm()
@@ -32,7 +54,9 @@ namespace TaskManager
 
 			d_processes = Process.GetProcesses().ToDictionary(item => item.Id, item => item);
 
-			
+			cb_memSize.SelectedIndex = 1;
+
+
 		}
 
 
@@ -56,7 +80,42 @@ namespace TaskManager
 			listView_Processes.Columns.Add("Name");
 			listView_Processes.Columns.Add("Working Set");
 			listView_Processes.Columns.Add("Peak Working Set");
+
+			listView_Processes.Columns[2].TextAlign = HorizontalAlignment.Right;
+			listView_Processes.Columns[3].TextAlign = HorizontalAlignment.Right;
+			
+			for (int i = 0; i < listView_Processes.Columns.Count; i++)
+			{
+				listView_Processes.Columns[i].Width = -1;
+			}
+
 			listView_Processes.View = View.Details;
+		}
+
+		string GetPrefix(RAM_Factor factor)
+		{
+			string prefix = "unknow";
+
+			switch (RAMFactor)
+			{
+				case RAM_Factor.Bytes:
+					prefix = "B";
+					break;
+
+				case RAM_Factor.KIB:
+					prefix = "KiB";
+					break;
+
+				case RAM_Factor.MIB:
+					prefix = "MiB";
+					break;
+
+				case RAM_Factor.GIB:
+					prefix = "GiB";
+					break;
+			}
+
+			return prefix;
 		}
 
 		void AddProcessToListView(Process process)
@@ -68,8 +127,8 @@ namespace TaskManager
 
 			liv.Text = process.Id.ToString();
 			liv.SubItems.Add(process.ProcessName);
-			liv.SubItems.Add($"{ (process.WorkingSet64 / ramFactor)} {ramSuffix}");
-			liv.SubItems.Add($"{(process.PeakWorkingSet64 / ramFactor)} {ramSuffix}");
+			liv.SubItems.Add($"{ Math.Round(process.WorkingSet64 / (double)RAMFactor, 2)} {GetPrefix(RAMFactor)}");
+			liv.SubItems.Add($"{ Math.Round(process.PeakWorkingSet64 / (double)RAMFactor, 2)} {GetPrefix(RAMFactor)}");
 
 
 			listView_Processes.Items.Add(liv);
@@ -83,15 +142,16 @@ namespace TaskManager
 				if (d_processes.ContainsKey(id))
 				{
 					
-					listView_Processes.Items[i].SubItems[2].Text = $"{(d_processes[id].WorkingSet64 / ramFactor)} {ramSuffix}";
-					listView_Processes.Items[i].SubItems[3].Text = $"{(d_processes[id].PeakWorkingSet64 / ramFactor)} {ramSuffix}";
+					listView_Processes.Items[i].SubItems[2].Text =
+						$"{Math.Round(d_processes[id].WorkingSet64 / (double)RAMFactor, 2)} {GetPrefix(RAMFactor)}";
+					listView_Processes.Items[i].SubItems[3].Text = 
+						$"{Math.Round(d_processes[id].PeakWorkingSet64 / (double)RAMFactor, 2)} {GetPrefix(RAMFactor)}";
 				}
 			}
 		}
 
 		private void LoadProcesses()
 		{
-			//listView_Processes.Items.Clear();
 			d_processes = Process.GetProcesses().ToDictionary(item => item.Id, item => item);
 			foreach (var i in d_processes)
 			{
@@ -118,7 +178,6 @@ namespace TaskManager
 			{
 				if (!d_processes.ContainsKey(i.Key))
 				{
-					//this.d_processes.Add(i.Key, i.Value);
 					AddProcessToListView(i.Value);
 				}
 			}
@@ -176,6 +235,46 @@ namespace TaskManager
 			} catch(Exception err) {
 				MessageBox.Show(err.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}	
+		}
+
+		private void cb_memSize_TextChanged(object sender, EventArgs e)
+		{
+			string memSize;
+			try
+			{
+				memSize = cb_memSize.Items[cb_memSize.SelectedIndex].ToString();
+			} catch
+			{
+				memSize = "KiB";
+				cb_memSize.Text = memSize;
+			}
+			switch (memSize)
+			{
+				case "Bytes":
+					RAMFactor = RAM_Factor.Bytes;
+					break;
+
+				case "KiB":
+					RAMFactor = RAM_Factor.KIB;
+					break;
+
+				case "MiB":
+					RAMFactor = RAM_Factor.MIB;
+					break;
+
+				case "GiB":
+					RAMFactor = RAM_Factor.GIB;
+					break;
+
+				default:
+					RAMFactor = RAM_Factor.KIB;
+					break;
+			}
+		}
+
+		private void findToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+
 		}
 	}
 }
