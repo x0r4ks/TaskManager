@@ -4,20 +4,16 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
-using TaskManager.models;
+using System.Collections;
 
 /*
  
 TODO:
 
-3. Создать Enum для RAM_Factor;
 4. Добавить фильтрацию процессов по имени;
-5. Выровнять числовые значения в столбцах по правому краю;
 6. В интерфейс программы добавить возможность выбирать столбцы;
 7. Добавить сортировку списка процессов;
 	https://learn.microsoft.com/en-us/troubleshoot/developer/visualstudio/csharp/language-compilers/sort-listview-by-column
-
-
  */
 
 enum RAM_Factor
@@ -41,7 +37,6 @@ namespace TaskManager
 
 		RAM_Factor RAMFactor = RAM_Factor.KIB;
 
-
 		public MainForm()
 		{
 			InitializeComponent();
@@ -55,13 +50,11 @@ namespace TaskManager
 			d_processes = Process.GetProcesses().ToDictionary(item => item.Id, item => item);
 
 			cb_memSize.SelectedIndex = 1;
-
-
 		}
 
 
 
-		private void timer_processesUpdate_Tick(object sender, EventArgs e)
+	private void timer_processesUpdate_Tick(object sender, EventArgs e)
 		{
 			AddNewProcesses();
 			RemoveOldProcesses();
@@ -176,10 +169,7 @@ namespace TaskManager
 			Dictionary<int, Process> d_proc = Process.GetProcesses().ToDictionary(item => item.Id, item => item);
 			foreach (var i in d_proc)
 			{
-				if (!d_processes.ContainsKey(i.Key))
-				{
-					AddProcessToListView(i.Value);
-				}
+				AddProcessToListView(i.Value);
 			}
 		}
 
@@ -274,7 +264,17 @@ namespace TaskManager
 
 		private void findToolStripMenuItem_Click(object sender, EventArgs e)
 		{
+			FilterBox filterBox = new FilterBox();
+			
+			if (filterBox.ShowDialog() == DialogResult.OK)
+			{
+				
+			}
+		}
 
+		private void listView_Processes_ColumnClick(object sender, ColumnClickEventArgs e)
+		{
+			listView_Processes.ListViewItemSorter = new ListViewItemComparer(e.Column);
 		}
 	}
 }

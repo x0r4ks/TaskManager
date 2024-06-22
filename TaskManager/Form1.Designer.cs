@@ -100,6 +100,7 @@ namespace TaskManager
 			this.listView_Processes.TabIndex = 0;
 			this.listView_Processes.UseCompatibleStateImageBehavior = false;
 			this.listView_Processes.View = System.Windows.Forms.View.Details;
+			this.listView_Processes.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.listView_Processes_ColumnClick);
 			// 
 			// pID
 			// 
@@ -199,7 +200,7 @@ namespace TaskManager
 			this.memSizeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.cb_memSize});
 			this.memSizeToolStripMenuItem.Name = "memSizeToolStripMenuItem";
-			this.memSizeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.memSizeToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
 			this.memSizeToolStripMenuItem.Text = "Mem Size";
 			// 
 			// cb_memSize
@@ -216,7 +217,7 @@ namespace TaskManager
 			// findToolStripMenuItem
 			// 
 			this.findToolStripMenuItem.Name = "findToolStripMenuItem";
-			this.findToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.findToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
 			this.findToolStripMenuItem.Text = "Find";
 			this.findToolStripMenuItem.Click += new System.EventHandler(this.findToolStripMenuItem_Click);
 			// 
