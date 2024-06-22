@@ -158,7 +158,8 @@ namespace TaskManager
 			d_processes = Process.GetProcesses().ToDictionary(item => item.Id, item => item);
 			for (int i = 0; i < listView_Processes.Items.Count; i++)
 			{
-				if (!d_processes.ContainsKey(Convert.ToInt32(listView_Processes.Items[i].Text))) { 
+				if (!d_processes.ContainsKey(Convert.ToInt32(listView_Processes.Items[i].Text)))
+				{
 					listView_Processes.Items.RemoveAt(i);
 				}
 			}
@@ -169,7 +170,11 @@ namespace TaskManager
 			Dictionary<int, Process> d_proc = Process.GetProcesses().ToDictionary(item => item.Id, item => item);
 			foreach (var i in d_proc)
 			{
-				AddProcessToListView(i.Value);
+				if (!d_processes.ContainsKey(i.Key))
+				{
+					//this.d_processes.Add(i.Key, i.Value);
+					AddProcessToListView(i.Value);
+				}
 			}
 		}
 
