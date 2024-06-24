@@ -48,6 +48,11 @@ namespace TaskManager
 			this.memSizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.cb_memSize = new System.Windows.Forms.ToolStripComboBox();
 			this.findToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.columntsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.pIDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.nAMEToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.workingSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.peakWorkingSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.listView_Processes = new TaskManager.ListViewSmooth();
 			this.pID = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.pName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -158,7 +163,8 @@ namespace TaskManager
 			// 
 			this.settingsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.memSizeToolStripMenuItem,
-            this.findToolStripMenuItem});
+            this.findToolStripMenuItem,
+            this.columntsToolStripMenuItem});
 			this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
 			this.settingsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
 			this.settingsToolStripMenuItem.Text = "Settings";
@@ -188,6 +194,57 @@ namespace TaskManager
 			this.findToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
 			this.findToolStripMenuItem.Text = "Find (NOT WORKING)";
 			this.findToolStripMenuItem.Click += new System.EventHandler(this.findToolStripMenuItem_Click);
+			// 
+			// columntsToolStripMenuItem
+			// 
+			this.columntsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.pIDToolStripMenuItem,
+            this.nAMEToolStripMenuItem,
+            this.workingSetToolStripMenuItem,
+            this.peakWorkingSetToolStripMenuItem});
+			this.columntsToolStripMenuItem.Name = "columntsToolStripMenuItem";
+			this.columntsToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
+			this.columntsToolStripMenuItem.Text = "Columnts";
+			// 
+			// pIDToolStripMenuItem
+			// 
+			this.pIDToolStripMenuItem.Checked = true;
+			this.pIDToolStripMenuItem.CheckOnClick = true;
+			this.pIDToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.pIDToolStripMenuItem.Name = "pIDToolStripMenuItem";
+			this.pIDToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.pIDToolStripMenuItem.Text = "PID";
+			this.pIDToolStripMenuItem.CheckedChanged += new System.EventHandler(this.pIDToolStripMenuItem_CheckedChanged);
+			// 
+			// nAMEToolStripMenuItem
+			// 
+			this.nAMEToolStripMenuItem.Checked = true;
+			this.nAMEToolStripMenuItem.CheckOnClick = true;
+			this.nAMEToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.nAMEToolStripMenuItem.Name = "nAMEToolStripMenuItem";
+			this.nAMEToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.nAMEToolStripMenuItem.Text = "NAME";
+			this.nAMEToolStripMenuItem.CheckedChanged += new System.EventHandler(this.pIDToolStripMenuItem_CheckedChanged);
+			// 
+			// workingSetToolStripMenuItem
+			// 
+			this.workingSetToolStripMenuItem.Checked = true;
+			this.workingSetToolStripMenuItem.CheckOnClick = true;
+			this.workingSetToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.workingSetToolStripMenuItem.Name = "workingSetToolStripMenuItem";
+			this.workingSetToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.workingSetToolStripMenuItem.Text = "Working Set";
+			this.workingSetToolStripMenuItem.CheckedChanged += new System.EventHandler(this.pIDToolStripMenuItem_CheckedChanged);
+			// 
+			// peakWorkingSetToolStripMenuItem
+			// 
+			this.peakWorkingSetToolStripMenuItem.Checked = true;
+			this.peakWorkingSetToolStripMenuItem.CheckOnClick = true;
+			this.peakWorkingSetToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.peakWorkingSetToolStripMenuItem.Name = "peakWorkingSetToolStripMenuItem";
+			this.peakWorkingSetToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.peakWorkingSetToolStripMenuItem.Text = "Peak Working Set";
+			this.peakWorkingSetToolStripMenuItem.CheckedChanged += new System.EventHandler(this.pIDToolStripMenuItem_CheckedChanged);
 			// 
 			// listView_Processes
 			// 
@@ -266,6 +323,11 @@ namespace TaskManager
 		private System.Windows.Forms.ToolStripMenuItem memSizeToolStripMenuItem;
 		private System.Windows.Forms.ToolStripComboBox cb_memSize;
 		private System.Windows.Forms.ToolStripMenuItem findToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem columntsToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem pIDToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem nAMEToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem workingSetToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem peakWorkingSetToolStripMenuItem;
 	}
 }
 

@@ -85,6 +85,8 @@ namespace TaskManager
 			}
 
 			listView_Processes.View = View.Details;
+
+			
 		}
 
 		string GetPrefix(RAM_Factor factor)
@@ -307,6 +309,32 @@ namespace TaskManager
 		private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
 		{
 			SaveHistory();
+		}
+
+		private void pIDToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
+		{
+			switch (((ToolStripMenuItem)sender).Text)
+			{
+				case "PID":
+					listView_Processes.Columns[0].Width = (!((ToolStripMenuItem)sender).Checked ? 0 : -1);
+					break;
+
+				case "NAME":
+					listView_Processes.Columns[1].Width = (!((ToolStripMenuItem)sender).Checked ? 0 : -1);
+					break;
+
+				case "Working Set":
+					listView_Processes.Columns[2].Width = (!((ToolStripMenuItem)sender).Checked ? 0 : -1);
+					break;
+
+				case "Peak Working Set":
+					listView_Processes.Columns[3].Width = (!((ToolStripMenuItem)sender).Checked ? 0 : -1);
+					break;
+
+				default:
+					break;
+
+			}
 		}
 	}
 }
