@@ -50,6 +50,8 @@ namespace TaskManager
 			d_processes = Process.GetProcesses().ToDictionary(item => item.Id, item => item);
 
 			cb_memSize.SelectedIndex = 1;
+
+			LoadHistory();
 		}
 
 
@@ -292,7 +294,14 @@ namespace TaskManager
 
 		private void LoadHistory()
 		{
+			XmlSerializer ser = new XmlSerializer(typeof(List<String>));
 
+			using (FileStream fs = new FileStream("history.xml", FileMode.OpenOrCreate))
+			{
+				List<String> lhistory = ser.Deserialize(fs) as List<String>;
+				this.history = lhistory;
+
+			}
 		}
 
 		private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
