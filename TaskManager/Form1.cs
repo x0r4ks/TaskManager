@@ -5,6 +5,10 @@ using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
 using System.Collections;
+using System.Xml.Serialization;
+using System.IO;
+
+
 
 /*
  
@@ -190,8 +194,6 @@ namespace TaskManager
 		}
 
 
-	
-
 		[DllImport("advapi32.dll", SetLastError = true)]
 		private static extern bool OpenProcessToken(IntPtr processHandle,
 			uint desiredAcsess, out IntPtr handle);
@@ -277,5 +279,21 @@ namespace TaskManager
 		{
 			listView_Processes.ListViewItemSorter = new ListViewItemComparer(e.Column);
 		}
+
+		private void SaveHistory()
+		{
+			XmlSerializer ser = new XmlSerializer(typeof(List<String>));
+
+			using (FileStream fs = new FileStream("history.xml", FileMode.OpenOrCreate))
+			{
+				ser.Serialize(fs, history);
+			}
+		}
+
+		private void LoadHistory()
+		{
+
+		}
+
 	}
 }

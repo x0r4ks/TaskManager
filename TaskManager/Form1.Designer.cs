@@ -112,13 +112,13 @@ namespace TaskManager
 			// 
 			// menuStrip1
 			// 
-			this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem});
-			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-			this.menuStrip1.Name = "menuStrip1";
-			this.menuStrip1.Size = new System.Drawing.Size(704, 24);
-			this.menuStrip1.TabIndex = 2;
-			this.menuStrip1.Text = "menuStrip1";
+			//this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+   //         this.fileToolStripMenuItem});
+			//this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+			//this.menuStrip1.Name = "menuStrip1";
+			//this.menuStrip1.Size = new System.Drawing.Size(704, 24);
+			//this.menuStrip1.TabIndex = 2;
+			//this.menuStrip1.Text = "menuStrip1";
 			// 
 			// listView_Processes
 			// 
@@ -168,13 +168,13 @@ namespace TaskManager
 			// 
 			// tabPage2
 			// 
-			this.tabPage2.Location = new System.Drawing.Point(4, 22);
-			this.tabPage2.Name = "tabPage2";
-			this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage2.Size = new System.Drawing.Size(696, 363);
-			this.tabPage2.TabIndex = 1;
-			this.tabPage2.Text = "tabPage2";
-			this.tabPage2.UseVisualStyleBackColor = true;
+			//this.tabPage2.Location = new System.Drawing.Point(4, 22);
+			//this.tabPage2.Name = "tabPage2";
+			//this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+			//this.tabPage2.Size = new System.Drawing.Size(696, 363);
+			//this.tabPage2.TabIndex = 1;
+			//this.tabPage2.Text = "tabPage2";
+			//this.tabPage2.UseVisualStyleBackColor = true;
 			// 
 			// runNewTaskToolStripMenuItem
 			// 
