@@ -4,17 +4,8 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
-using System.Collections;
 using System.Xml.Serialization;
 using System.IO;
-
-
-
-/*
- 
-TODO:
-4. Добавить фильтрацию процессов по имени;
- */
 
 enum RAM_Factor
 {
@@ -24,39 +15,35 @@ enum RAM_Factor
 	GIB		= 0x40000000,
 }
 
-
 namespace TaskManager
 {
-
 	public partial class MainForm : Form
 	{
 
 		Dictionary<int, Process> d_processes;
-
 		List<String> history;
-
 		RAM_Factor RAMFactor = RAM_Factor.KIB;
+
 
 		public MainForm()
 		{
 			InitializeComponent();
+
 			history = new List<String>();
 
 			SetColumns();
-			
 			statusStrip.Items.Add("");
+
 			LoadProcesses();
 
 			d_processes = Process.GetProcesses().ToDictionary(item => item.Id, item => item);
-
 			cb_memSize.SelectedIndex = 1;
 
 			LoadHistory();
 		}
 
 
-
-	private void timer_processesUpdate_Tick(object sender, EventArgs e)
+		private void timer_processesUpdate_Tick(object sender, EventArgs e)
 		{
 			AddNewProcesses();
 			RemoveOldProcesses();
@@ -85,8 +72,6 @@ namespace TaskManager
 			}
 
 			listView_Processes.View = View.Details;
-
-			
 		}
 
 		string GetPrefix(RAM_Factor factor)
@@ -333,7 +318,6 @@ namespace TaskManager
 
 				default:
 					break;
-
 			}
 		}
 	}
