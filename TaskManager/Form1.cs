@@ -11,8 +11,8 @@ enum RAM_Factor
 {
 	Bytes	= 0x1,
 	KIB		= 0x400,
-	MIB		= 0x100000,
-	GIB		= 0x40000000,
+	MIB		= 0x100_000,
+	GIB		= 0x40_000_000,
 }
 
 namespace TaskManager
@@ -23,37 +23,48 @@ namespace TaskManager
 		Dictionary<int, Process> d_processes;
 		List<String> history;
 		RAM_Factor RAMFactor = RAM_Factor.KIB;
+		bool sortFlagUpDowd = false; // false is down, true is up
+		bool filterFlag = false;
+		string filterMask = "";
 
+		object old_sender;
 
 		public MainForm()
 		{
 			InitializeComponent();
 
 			history = new List<String>();
-
-			SetColumns();
 			statusStrip.Items.Add("");
 
+			SetColumns();
 			LoadProcesses();
 
 			d_processes = Process.GetProcesses().ToDictionary(item => item.Id, item => item);
 			cb_memSize.SelectedIndex = 1;
 
-			LoadHistory();
+			try
+			{
+				LoadHistory();
+			} catch
+			{
+				history= new List<String>();	
+			}
 		}
-
 
 		private void timer_processesUpdate_Tick(object sender, EventArgs e)
 		{
+			
 			AddNewProcesses();
 			RemoveOldProcesses();
-			UpdateExistingProcesses();
 
-			statusStrip.Items[0].Text = $"Количество процессов: {listView_Processes.Items.Count}";
 			
 
-		}
+			UpdateExistingProcesses();
 
+			
+
+			statusStrip.Items[0].Text = $"Количество процессов: {listView_Processes.Items.Count}";
+		}
 
 		private void SetColumns()
 		{
@@ -102,9 +113,6 @@ namespace TaskManager
 
 		void AddProcessToListView(Process process)
 		{
-
-			
-
 			ListViewItem liv = new ListViewItem();
 
 			liv.Text = process.Id.ToString();
@@ -157,12 +165,15 @@ namespace TaskManager
 		private void AddNewProcesses()
 		{
 			Dictionary<int, Process> d_proc = Process.GetProcesses().ToDictionary(item => item.Id, item => item);
+
 			foreach (var i in d_proc)
 			{
 				if (!d_processes.ContainsKey(i.Key))
 				{
 					//this.d_processes.Add(i.Key, i.Value);
 					AddProcessToListView(i.Value);
+
+
 				}
 			}
 		}
@@ -189,12 +200,11 @@ namespace TaskManager
 
 		[DllImport("kernel32", SetLastError = true)]
 		[return: MarshalAs(UnmanagedType.Bool)]
+
 		private static extern bool CloseHandle(IntPtr handle);
 
 		private void runNewTaskToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			
-			
 			InputBox inputBox = new InputBox("Execute", history);
 			inputBox.ShowDialog();
 			history = inputBox.gHistory;
@@ -254,19 +264,28 @@ namespace TaskManager
 			}
 		}
 
+		// TODO: Find Logick
 		private void findToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			FilterBox filterBox = new FilterBox();
 			
 			if (filterBox.ShowDialog() == DialogResult.OK)
 			{
-				
+				filterFlag = true;
+				filterMask = filterBox.GetName();
 			}
 		}
 
+		
+
 		private void listView_Processes_ColumnClick(object sender, ColumnClickEventArgs e)
 		{
-			listView_Processes.ListViewItemSorter = new ListViewItemComparer(e.Column);
+			filterFlag = false;
+			if (sender == old_sender)
+			{
+				sortFlagUpDowd = !sortFlagUpDowd;
+			} old_sender = sender;
+			listView_Processes.ListViewItemSorter = new ListViewItemComparer(e.Column, sortFlagUpDowd);
 		}
 
 		private void SaveHistory()

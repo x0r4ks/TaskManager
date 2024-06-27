@@ -91,6 +91,8 @@
 			// 
 			// cb_executeProcess
 			// 
+			this.cb_executeProcess.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+			this.cb_executeProcess.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
 			this.cb_executeProcess.FormattingEnabled = true;
 			this.cb_executeProcess.Location = new System.Drawing.Point(117, 28);
 			this.cb_executeProcess.Name = "cb_executeProcess";

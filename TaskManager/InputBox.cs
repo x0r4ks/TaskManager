@@ -22,13 +22,16 @@ namespace TaskManager
 			this.Name = name;
 			gHistory = history;
 
-			if (history != null )
-			{
-				for (int i = history.Count - 1; i >= 0; i--)
-				{
-					cb_executeProcess.Items.Add(history[i]);
-				}
-			}
+
+			//if (history != null )
+			//{
+			//	for (int i = history.Count - 1; i >= 0; i--)
+			//	{
+			//		cb_executeProcess.Items.Add(history[i]);
+			//	}
+			//}
+
+			cb_executeProcess.DataSource = gHistory;
 		}
 
 		private void bnt_cancel_Click(object sender, EventArgs e)
